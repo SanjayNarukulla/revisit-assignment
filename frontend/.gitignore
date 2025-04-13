@@ -12,7 +12,7 @@ node_modules/
 
 # Production build
 build/
-dist/
+
 dist-ssr/
 
 # Local env files
