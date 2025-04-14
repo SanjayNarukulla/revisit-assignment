@@ -85,13 +85,12 @@ const Categories = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/"); // Or "/" if you want to go to home
+    navigate("/"); 
   };
 
   return (
-    <div className="p-4 md:ml-64">
-      {" "}
-      {/* Add left margin to content */}
+    <div className="p-4">
+      
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Categories</h1>
         {isAdmin && (
