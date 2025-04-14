@@ -50,8 +50,8 @@ const Categories = () => {
     setEditCategory(category);
     setFormData({
       name: category.name,
-      imageUrl: category.image,
-      itemCount: category.items,
+      imageUrl: category.imageUrl,
+      itemCount: category.itemCount,
     });
     setModalOpen(true);
   };

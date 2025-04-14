@@ -1,11 +1,10 @@
-// src/components/Auth/Login.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
 import axios from "axios";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -14,7 +13,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(import.meta.env.VITE_API_URL);
+    setLoading(true);
+
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/login`,
@@ -22,10 +22,12 @@ function Login() {
       );
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role); // user or admin
+      localStorage.setItem("role", res.data.role);
       navigate("/dashboard");
     } catch (error) {
       alert(error.response?.data?.message || "Login failed!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,10 +61,40 @@ function Login() {
 
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          disabled={loading}
+          className={`w-full flex justify-center items-center gap-2 bg-green-500 text-white py-2 rounded ${
+            loading ? "opacity-70 cursor-not-allowed" : "hover:bg-green-600"
+          }`}
         >
-          Login
+          {loading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
+              Logging in...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
+
         <p className="mt-4 text-center text-sm">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-600 hover:underline">
